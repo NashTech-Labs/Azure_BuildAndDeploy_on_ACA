@@ -1,0 +1,30 @@
+parameters:
+- name: imageToBuild
+  type: string
+- name: dockerImageTag
+  type: string
+- name: azureSubscription
+  type: string
+- name: resourceGroup
+  type: string
+- name: containerAppName
+  type: string
+- name: acrName
+  type: string
+- name: appSourcePath
+  type: string
+  default: '$(System.DefaultWorkingDirectory)'
+- name: dockerfilePath
+  type: string
+  default: 'Dockerfile'
+
+steps:
+- task: AzureContainerApps@1
+  inputs:
+    appSourcePath: ${{ parameters.appSourcePath }}
+    azureSubscription: ${{ parameters.azureSubscription }}
+    acrName: ${{ parameters.acrName }}
+    containerAppName: ${{ parameters.containerAppName }}
+    resourceGroup: ${{ parameters.resourceGroup }}
+    dockerfilePath: ${{ parameters.dockerfilePath }}
+    imageToBuild: ${{ parameters.imageToBuild }}:${{ parameters.dockerImageTag }}
